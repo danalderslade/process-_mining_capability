@@ -54,13 +54,23 @@ function App() {
         <div>
           <h1>
             <span className="icon">◆</span>
-            HSBC FinCrime Process Mining
+            Dan and Lukasz' Bank Masterpiece
           </h1>
           <div className="header-subtitle">Financial Crime Investigation Analytics</div>
         </div>
-        {dashboard && (
-          <div className="total-badge">{dashboard.totalCases} Total Cases</div>
-        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <a
+            href="/Bank_Masterpiece_Pitch.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#fff', textDecoration: 'none', fontSize: '14px', border: '1px solid rgba(255,255,255,0.5)', padding: '6px 14px', borderRadius: '4px', whiteSpace: 'nowrap' }}
+          >
+            📄 Product Pitch
+          </a>
+          {dashboard && (
+            <div className="total-badge">{dashboard.totalCases} Total Cases</div>
+          )}
+        </div>
       </header>
 
       <main className="main-content">

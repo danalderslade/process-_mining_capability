@@ -1,5 +1,5 @@
 /* =============================================
-   HSBC-Style Branding
+   App Branding
    Primary Red: #DB0011 | Black: #333333
    Font: "Univers", Arial, Helvetica, sans-serif
    Clean white backgrounds with red accents
@@ -22,7 +22,7 @@ body {
   min-height: 100vh;
 }
 
-/* HSBC Red Header */
+/* Red Header */
 .header {
   background: #DB0011;
   padding: 0 32px;
@@ -206,7 +206,7 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* HSBC-style status colours — red-anchored palette */
+/* Status colours — red-anchored palette */
 .status-card.new .count { color: #0072AA; }
 .status-card.under-investigation .count { color: #DB0011; }
 .status-card.awaiting-information .count { color: #D35400; }
@@ -439,7 +439,7 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Tabs — HSBC style with red underline */
+/* Tabs — red underline style */
 .tabs {
   display: flex;
   gap: 0;

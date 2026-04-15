@@ -1,4 +1,4 @@
-# HSBC Financial Crime — Process Mining Capability
+# Dan and Lukasz' Bank Masterpiece — Process Mining Capability
 
 ## Product Documentation
 

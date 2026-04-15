@@ -6,7 +6,7 @@ from pathlib import Path
 from weasyprint import HTML
 
 SCREENSHOTS_DIR = Path("/workspaces/process-_mining_capability/screenshots")
-OUTPUT_PATH = Path("/workspaces/process-_mining_capability/HSBC_FinCrime_Process_Mining_Pitch.pdf")
+OUTPUT_PATH = Path("/workspaces/process-_mining_capability/Bank_Masterpiece_Pitch.pdf")
 
 
 def img_to_data_uri(path: Path) -> str:
@@ -362,7 +362,7 @@ html = f"""<!DOCTYPE html>
   are slow to build, expensive to maintain, and always out of date by the time they reach a decision-maker.</p>
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>2</span>
   </div>
 </div>
@@ -381,7 +381,7 @@ html = f"""<!DOCTYPE html>
   and line of business — so every team sees the data that matters to them.</p>
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>3</span>
   </div>
 </div>
@@ -414,7 +414,7 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>4</span>
   </div>
 </div>
@@ -449,7 +449,7 @@ html = f"""<!DOCTYPE html>
   immediately visible to any stakeholder — no data literacy required.</p>
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>5</span>
   </div>
 </div>
@@ -470,7 +470,7 @@ html = f"""<!DOCTYPE html>
   <img src="{detail_img}" class="screenshot-sm" />
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>6</span>
   </div>
 </div>
@@ -524,7 +524,7 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>7</span>
   </div>
 </div>
@@ -601,7 +601,7 @@ html = f"""<!DOCTYPE html>
   </div>
 
   <div class="footer">
-    <span>HSBC FinCrime Process Mining</span>
+    <span>Dan and Lukasz' Bank Masterpiece</span>
     <span>8</span>
   </div>
 </div>
@@ -619,7 +619,7 @@ html = f"""<!DOCTYPE html>
       Let's Talk
     </div>
     <p style="font-size: 12px; color: #aaa; margin-top: 40px;">
-      HSBC FinCrime Process Mining &bull; Confidential &bull; April 2026
+      Dan and Lukasz' Bank Masterpiece &bull; Confidential &bull; April 2026
     </p>
   </div>
 </div>
