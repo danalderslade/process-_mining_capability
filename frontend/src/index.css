@@ -493,6 +493,22 @@ body {
   border-color: transparent;
 }
 
+/* Export CSV Button */
+.export-csv-btn {
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #DB0011;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.export-csv-btn:hover {
+  background-color: #af000e;
+}
+
 /* Case Detail Modal */
 .modal-overlay {
   position: fixed;

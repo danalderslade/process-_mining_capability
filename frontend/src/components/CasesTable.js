@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { fetchCaseTransitions } from '../api';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 const STATUS_LABELS = {
   NEW: 'New',
@@ -42,13 +46,13 @@ const CaseDetailModal = ({ caseData, onClose }) => {
         </div>
         <div className="modal-body">
           <div style={{ marginBottom: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, fontSize: 13 }}>
-            <div><span style={{ color: '#94a3b8' }}>Type:</span> {caseData.caseType}</div>
-            <div><span style={{ color: '#94a3b8' }}>Country:</span> {caseData.country}</div>
-            <div><span style={{ color: '#94a3b8' }}>LOB:</span> <span className={`lob-badge ${caseData.lineOfBusiness.toLowerCase()}`}>{caseData.lineOfBusiness}</span></div>
-            <div><span style={{ color: '#94a3b8' }}>Status:</span> <span className={`status-badge ${statusClass(caseData.currentStatus)}`}>{STATUS_LABELS[caseData.currentStatus]}</span></div>
+            <div><span style={{ color: '#666' }}>Type:</span> {caseData.caseType}</div>
+            <div><span style={{ color: '#666' }}>Country:</span> {caseData.country}</div>
+            <div><span style={{ color: '#666' }}>LOB:</span> <span className={`lob-badge ${caseData.lineOfBusiness.toLowerCase()}`}>{caseData.lineOfBusiness}</span></div>
+            <div><span style={{ color: '#666' }}>Status:</span> <span className={`status-badge ${statusClass(caseData.currentStatus)}`}>{STATUS_LABELS[caseData.currentStatus]}</span></div>
           </div>
 
-          <h3 style={{ fontSize: 13, fontWeight: 600, marginBottom: 12, color: '#94a3b8' }}>TRANSITION HISTORY</h3>
+          <h3 style={{ fontSize: 13, fontWeight: 600, marginBottom: 12, color: '#666' }}>TRANSITION HISTORY</h3>
 
           {loading ? (
             <div className="loading"><div className="loading-spinner" />Loading...</div>
@@ -76,42 +80,90 @@ const CaseDetailModal = ({ caseData, onClose }) => {
 
 const CasesTable = ({ cases }) => {
   const [selectedCase, setSelectedCase] = useState(null);
+  const gridRef = useRef();
+
+  const onExportCsv = useCallback(() => {
+    gridRef.current?.api?.exportDataAsCsv({ fileName: 'cases-export.csv' });
+  }, []);
+
+  const columnDefs = useMemo(() => [
+    {
+      headerName: 'Reference',
+      field: 'caseReference',
+      cellStyle: { fontWeight: 500 },
+      minWidth: 140,
+    },
+    {
+      headerName: 'Type',
+      field: 'caseType',
+      minWidth: 120,
+    },
+    {
+      headerName: 'Country',
+      field: 'country',
+      minWidth: 120,
+    },
+    {
+      headerName: 'LOB',
+      field: 'lineOfBusiness',
+      minWidth: 110,
+      cellRenderer: (params) => {
+        const v = params.value;
+        return <span className={`lob-badge ${v.toLowerCase()}`}>{v === 'RETAIL' ? 'Retail' : 'Commercial'}</span>;
+      },
+    },
+    {
+      headerName: 'Status',
+      field: 'currentStatus',
+      minWidth: 160,
+      cellRenderer: (params) => {
+        const v = params.value;
+        const cls = statusClass(v);
+        const label = STATUS_LABELS[v] || v;
+        return <span className={`status-badge ${cls}`}>{label}</span>;
+      },
+    },
+    {
+      headerName: 'Created',
+      field: 'createdAt',
+      minWidth: 160,
+      valueFormatter: (params) => formatDate(params.value),
+      comparator: (a, b) => new Date(a) - new Date(b),
+    },
+  ], []);
+
+  const defaultColDef = useMemo(() => ({
+    sortable: true,
+    filter: true,
+    floatingFilter: true,
+    resizable: true,
+    flex: 1,
+    minWidth: 100,
+  }), []);
+
+  const onRowClicked = useCallback((event) => {
+    setSelectedCase(event.data);
+  }, []);
 
   return (
     <>
-      <div className="cases-scroll">
-        <table className="cases-table">
-          <thead>
-            <tr>
-              <th>Reference</th>
-              <th>Type</th>
-              <th>Country</th>
-              <th>LOB</th>
-              <th>Status</th>
-              <th>Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cases.map(c => (
-              <tr key={c.id} onClick={() => setSelectedCase(c)}>
-                <td style={{ fontWeight: 500 }}>{c.caseReference}</td>
-                <td>{c.caseType}</td>
-                <td>{c.country}</td>
-                <td>
-                  <span className={`lob-badge ${c.lineOfBusiness.toLowerCase()}`}>
-                    {c.lineOfBusiness === 'RETAIL' ? 'Retail' : 'Commercial'}
-                  </span>
-                </td>
-                <td>
-                  <span className={`status-badge ${statusClass(c.currentStatus)}`}>
-                    {STATUS_LABELS[c.currentStatus] || c.currentStatus}
-                  </span>
-                </td>
-                <td style={{ color: '#94a3b8', fontSize: 12 }}>{formatDate(c.createdAt)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+        <button className="export-csv-btn" onClick={onExportCsv}>Export CSV</button>
+      </div>
+      <div className="ag-theme-quartz" style={{ height: 500, width: '100%' }}>
+        <AgGridReact
+          ref={gridRef}
+          rowData={cases}
+          columnDefs={columnDefs}
+          defaultColDef={defaultColDef}
+          onRowClicked={onRowClicked}
+          pagination={true}
+          paginationPageSize={20}
+          paginationPageSizeSelector={[10, 20, 50, 100]}
+          animateRows={true}
+          rowSelection="single"
+          enableCellTextSelection={true}
+        />
       </div>
 
       {selectedCase && (

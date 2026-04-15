@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useMemo, useRef, useCallback } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 const STATUS_LABELS = {
   NEW: 'New',
@@ -23,33 +27,66 @@ const getHoursClass = (hours) => {
 };
 
 const TransitionMetrics = ({ metrics }) => {
+  const gridRef = useRef();
+
+  const onExportCsv = useCallback(() => {
+    gridRef.current?.api?.exportDataAsCsv({ fileName: 'transition-metrics-export.csv' });
+  }, []);
+
+  const rowData = useMemo(() => {
+    if (!metrics) return [];
+    return metrics.map(m => ({
+      from: STATUS_LABELS[m.fromStatus] || m.fromStatus,
+      to: STATUS_LABELS[m.toStatus] || m.toStatus,
+      count: m.count,
+      avgHours: m.avgHours,
+      avgFormatted: formatHours(m.avgHours),
+    }));
+  }, [metrics]);
+
+  const columnDefs = useMemo(() => [
+    { headerName: 'From', field: 'from', minWidth: 140 },
+    { headerName: 'To', field: 'to', minWidth: 140 },
+    { headerName: 'Count', field: 'count', minWidth: 90, type: 'numericColumn' },
+    {
+      headerName: 'Avg Duration',
+      field: 'avgHours',
+      minWidth: 130,
+      type: 'numericColumn',
+      valueFormatter: (params) => formatHours(params.value),
+      cellClass: (params) => `avg-hours ${getHoursClass(params.value)}`,
+    },
+  ], []);
+
+  const defaultColDef = useMemo(() => ({
+    sortable: true,
+    filter: true,
+    floatingFilter: true,
+    resizable: true,
+    flex: 1,
+    minWidth: 80,
+  }), []);
+
   if (!metrics || metrics.length === 0) {
     return <div className="loading">No transition data available</div>;
   }
 
   return (
-    <table className="transition-table">
-      <thead>
-        <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>Count</th>
-          <th>Avg Duration</th>
-        </tr>
-      </thead>
-      <tbody>
-        {metrics.map((m, i) => (
-          <tr key={i}>
-            <td>{STATUS_LABELS[m.fromStatus] || m.fromStatus}</td>
-            <td>{STATUS_LABELS[m.toStatus] || m.toStatus}</td>
-            <td>{m.count}</td>
-            <td className={`avg-hours ${getHoursClass(m.avgHours)}`}>
-              {formatHours(m.avgHours)}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+        <button className="export-csv-btn" onClick={onExportCsv}>Export CSV</button>
+      </div>
+      <div className="ag-theme-quartz" style={{ height: 300, width: '100%' }}>
+        <AgGridReact
+          ref={gridRef}
+          rowData={rowData}
+        columnDefs={columnDefs}
+        defaultColDef={defaultColDef}
+        animateRows={true}
+        enableCellTextSelection={true}
+      />
+    </div>
+    </>
   );
 };
 
