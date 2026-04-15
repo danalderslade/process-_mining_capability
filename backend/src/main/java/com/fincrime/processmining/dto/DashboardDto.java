@@ -7,4 +7,5 @@ public record DashboardDto(
         List<StatusCountDto> statusCounts,
         Long totalCases,
         List<TransitionMetricDto> transitionMetrics,
-        ProcessFlowDto processFlow) {}
+        ProcessFlowDto processFlow,
+        List<TrendDataPointDto> investigationToReviewTrend) {}

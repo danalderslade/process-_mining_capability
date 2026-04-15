@@ -219,6 +219,34 @@ body {
 .status-card.review { border-top: 3px solid #8E44AD; }
 .status-card.closed { border-top: 3px solid #27AE60; }
 
+/* Trend Chart */
+.trend-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.trend-badge.improvement {
+  background: #E8F8F0;
+  color: #27AE60;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.trend-detail {
+  font-size: 13px;
+  color: #666666;
+}
+
+.trend-label {
+  font-size: 12px;
+  color: #999999;
+  font-weight: 400;
+}
+
 /* Transition Table */
 .transition-table {
   width: 100%;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +62,17 @@ public class ProcessMiningService {
 
         ProcessFlowDto processFlow = new ProcessFlowDto(statuses, edges);
 
-        return new DashboardDto(statusCounts, totalCases, transitionMetrics, processFlow);
+        List<TrendDataPointDto> trend = transitionRepository
+                .getTransitionTrendByMonth("UNDER_INVESTIGATION", "REVIEW", caseTypeId, countryId, lineOfBusiness)
+                .stream()
+                .map(row -> {
+                    java.sql.Timestamp ts = (java.sql.Timestamp) row[0];
+                    String month = ts.toLocalDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM"));
+                    return new TrendDataPointDto(month, ((Number) row[1]).doubleValue(), ((Number) row[2]).longValue());
+                })
+                .toList();
+
+        return new DashboardDto(statusCounts, totalCases, transitionMetrics, processFlow, trend);
     }
 
     public List<CaseDto> getCases(Integer caseTypeId, Integer countryId, String lineOfBusiness) {

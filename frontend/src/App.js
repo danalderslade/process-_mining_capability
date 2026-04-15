@@ -6,6 +6,7 @@ import TransitionMetrics from './components/TransitionMetrics';
 import CasesTable from './components/CasesTable';
 import FilterBar from './components/FilterBar';
 import ThroughputChart from './components/ThroughputChart';
+import TrendChart from './components/TrendChart';
 
 function App() {
   const [dashboard, setDashboard] = useState(null);
@@ -102,6 +103,15 @@ function App() {
               <>
                 <StatusSummary statusCounts={dashboard.statusCounts} />
                 <div className="dashboard-grid">
+                  <div className="card full-width">
+                    <div className="card-header">
+                      <h2>Investigation to Review — Processing Time Trend</h2>
+                      <span className="trend-label">Under Investigation → Manager Review</span>
+                    </div>
+                    <div className="card-body">
+                      <TrendChart trend={dashboard.investigationToReviewTrend} />
+                    </div>
+                  </div>
                   <div className="card">
                     <div className="card-header">
                       <h2>Transition Metrics</h2>
