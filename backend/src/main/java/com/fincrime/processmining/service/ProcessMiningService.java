@@ -108,11 +108,11 @@ public class ProcessMiningService {
         return new CaseDto(
                 c.getId(),
                 c.getCaseReference(),
-                c.getCaseType().getName(),
-                c.getCountry().getName(),
-                c.getCountry().getCode(),
+                c.getCaseType() != null ? c.getCaseType().getName() : "Unknown",
+                c.getCountry() != null ? c.getCountry().getName() : "Unknown",
+                c.getCountry() != null ? c.getCountry().getCode() : "UNK",
                 c.getLineOfBusiness(),
-                c.getCurrentStatus().getName(),
+                c.getCurrentStatus() != null ? c.getCurrentStatus().getName() : "Unknown",
                 c.getCreatedAt(),
                 c.getUpdatedAt());
     }

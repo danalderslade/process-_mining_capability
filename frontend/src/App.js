@@ -15,20 +15,22 @@ function App() {
   const [filters, setFilters] = useState({});
   const [activeTab, setActiveTab] = useState('overview');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchFilters().then(setFilterOptions).catch(console.error);
+    fetchFilters().then(setFilterOptions).catch(err => setError(err.message));
   }, []);
 
   useEffect(() => {
     setLoading(true);
+    setError(null);
     Promise.all([
       fetchDashboard(filters),
       fetchCases(filters)
     ]).then(([dashData, casesData]) => {
       setDashboard(dashData);
       setCases(casesData);
-    }).catch(console.error)
+    }).catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, [filters]);
 
@@ -96,6 +98,11 @@ function App() {
           <div className="loading">
             <div className="loading-spinner" />
             Loading dashboard data...
+          </div>
+        ) : error ? (
+          <div className="error-banner" style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#991b1b', padding: '12px 16px', borderRadius: '6px', marginBottom: '16px' }}>
+            <strong>Error:</strong> {error}
+            <button onClick={() => setError(null)} style={{ marginLeft: '12px', background: 'none', border: 'none', color: '#991b1b', cursor: 'pointer', fontWeight: 'bold' }}>✕</button>
           </div>
         ) : (
           <>

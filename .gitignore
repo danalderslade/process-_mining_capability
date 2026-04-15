@@ -16,3 +16,6 @@ frontend/.env.local
 
 # Docker
 pgdata/
+
+# Environment secrets
+.env
