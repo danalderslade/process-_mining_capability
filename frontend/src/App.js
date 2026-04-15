@@ -50,10 +50,10 @@ function App() {
       <header className="header">
         <div>
           <h1>
-            <span className="icon">⛏</span>
-            FinCrime Process Mining
+            <span className="icon">◆</span>
+            HSBC FinCrime Process Mining
           </h1>
-          <div className="header-subtitle">Investigation Workflow Analytics</div>
+          <div className="header-subtitle">Financial Crime Investigation Analytics</div>
         </div>
         {dashboard && (
           <div className="total-badge">{dashboard.totalCases} Total Cases</div>
