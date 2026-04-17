@@ -61,7 +61,7 @@ describe('App', () => {
   it('renders header with app name', async () => {
     render(<App />);
     await waitFor(() => {
-      expect(screen.getByText(/Bank Masterpiece/)).toBeInTheDocument();
+      expect(screen.getByText(/Process Mining Tool/)).toBeInTheDocument();
     });
   });
 
@@ -144,7 +144,7 @@ describe('App', () => {
     await waitFor(() => {
       const link = screen.getByText(/Product Pitch/);
       expect(link).toBeInTheDocument();
-      expect(link.closest('a')).toHaveAttribute('href', '/Bank_Masterpiece_Pitch.pdf');
+      expect(link.closest('a')).toHaveAttribute('href', '/Process_Mining_Tool_Pitch.pdf');
       expect(link.closest('a')).toHaveAttribute('target', '_blank');
     });
   });

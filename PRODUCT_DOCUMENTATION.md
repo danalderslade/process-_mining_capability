@@ -1,4 +1,4 @@
-# Dan and Lukasz' Bank Masterpiece — Process Mining Capability
+# Case Management - Process Mining Tool
 
 ## Product Documentation
 

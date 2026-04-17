@@ -54,13 +54,13 @@ function App() {
         <div>
           <h1>
             <span className="icon">◆</span>
-            Dan and Lukasz' Bank Masterpiece
+            Case Management - Process Mining Tool
           </h1>
           <div className="header-subtitle">Financial Crime Investigation Analytics</div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <a
-            href="/Bank_Masterpiece_Pitch.pdf"
+            href="/Process_Mining_Tool_Pitch.pdf"
             target="_blank"
             rel="noopener noreferrer"
             style={{ color: '#fff', textDecoration: 'none', fontSize: '14px', border: '1px solid rgba(255,255,255,0.5)', padding: '6px 14px', borderRadius: '4px', whiteSpace: 'nowrap' }}
